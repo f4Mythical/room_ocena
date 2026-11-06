@@ -18,7 +18,8 @@ public interface FilmDAO {
     public void usunFilm(Film film);
     @Update
     public void aktualizujFilm(Film film);
-    @Query("SELECT * from film");
+    @Query("SELECT * from film")
+
     public List<Film> zwrocWszystkieFilmy();
 
 }
