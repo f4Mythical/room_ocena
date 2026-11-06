@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.room.Room;
 
 import java.util.List;
 
@@ -33,8 +34,15 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         // builderstronger - na message.yes message.no pod anlunowanie
-
-
+    filmDataBase = Room.databaseBuilder(
+            getApplicationContext(),FilmDataBase.class,"film_db"
+    )
+            .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
+            .build();
+filmDataBase.zwrocWszystkieFilmy().wstawFilmDoBazy(
+        new Film(1,"Atlantyk",)
+);
     }
     private void ini(){
         eTName = findViewById(R.id.eTName);
