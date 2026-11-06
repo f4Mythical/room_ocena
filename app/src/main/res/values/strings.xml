@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">app</string>
+    <string-array name="gatunek">
+        <item>Horror</item>
+        <item>Musical</item>
+    </string-array>
 </resources>
