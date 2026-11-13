@@ -11,16 +11,17 @@ import java.util.List;
 @Dao
 public interface FilmDAO {
     @Insert
-    public void wstawFilmDoBazy(Film film);
+    void wstawFilmDoBazy(Film film);
+
     @Insert
-    public void wstawFilmyDoBazy(Film ... film);
+    void wstawFilmyDoBazy(Film... film);
+
     @Delete
-    public void usunFilm(Film film);
+    void usunZBazy(Film film);
+
     @Update
-    public void aktualizujFilm(Film film);
-    @Query("SELECT * from film")
+    void aktualizujFilm(Film film);
 
-    public List<Film> zwrocWszystkieFilmy();
-
+    @Query("SELECT * FROM film")
+    List<Film> zwrocWszystkieFilmy();
 }
-

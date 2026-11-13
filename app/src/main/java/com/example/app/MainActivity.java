@@ -16,10 +16,11 @@ import androidx.room.Room;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText eTName,eTAgeCategory,eTOwner;
+    private EditText eTName, eTAgeCategory, eTOwner;
     private Button btnSend;
     private Spinner spinner;
     private CheckBox czyWioska;
+
     private FilmDataBase filmDataBase;
     private List<Film> filmList;
 
@@ -33,18 +34,34 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // builderstronger - na message.yes message.no pod anlunowanie
-    filmDataBase = Room.databaseBuilder(
-            getApplicationContext(),FilmDataBase.class,"film_db"
-    )
-            .allowMainThreadQueries()
-            .fallbackToDestructiveMigration()
-            .build();
-filmDataBase.zwrocWszystkieFilmy().wstawFilmDoBazy(
-        new Film(1,"Atlantyk",)
-);
+
+        ini();
+        filmDataBase = Room.databaseBuilder(
+                        getApplicationContext(), FilmDataBase.class, "film_db")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
+        filmList = filmDataBase.zwrocWszystkieFilmyDAO().zwrocWszystkieFilmy();
+
+//        if (filmDataBase.zwrocWszystkieFilmyDAO().zwrocWszystkieFilmy().isEmpty()) {
+//            filmDataBase.zwrocWszystkieFilmyDAO().wstawFilmDoBazy(
+//                    new Film("Atlantyk", 12, false, "Jan Kowalski", "Dramat")
+//            );
+//        }
+        btnSend.setOnClickListener(v -> {
+        filmDataBase.zwrocWszystkieFilmyDAO().wstawFilmDoBazy(
+            new Film(
+                    eTName.getText().toString().trim(),
+                    Integer.parseInt(eTAgeCategory.getText().toString().trim()),
+                    czyWioska.isChecked(),
+                    eTOwner.getText().toString().trim(),
+                    spinner.getSelectedItem().toString()
+            )
+        );
+        });
     }
-    private void ini(){
+
+    private void ini() {
         eTName = findViewById(R.id.eTName);
         eTAgeCategory = findViewById(R.id.eTAgeCategory);
         eTOwner = findViewById(R.id.eTOwner);
@@ -52,4 +69,5 @@ filmDataBase.zwrocWszystkieFilmy().wstawFilmDoBazy(
         btnSend = findViewById(R.id.btnSend);
         czyWioska = findViewById(R.id.checkBoxVillage);
     }
+
 }
