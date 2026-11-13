@@ -80,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
             arrayAdapter.notifyDataSetChanged();
             wyczysc();
         });
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Film doUsuniecia = filmList.get(i);
+            filmDataBase.zwrocWszystkieFilmyDAO().usunZBazy(doUsuniecia);
+            filmList.remove(i);
+            arrayAdapter.notifyDataSetChanged();
+        });
     }
 
     private void ini() {
