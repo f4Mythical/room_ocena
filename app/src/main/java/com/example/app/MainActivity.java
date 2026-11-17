@@ -1,6 +1,7 @@
 package com.example.app;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private EditText eTName, eTAgeCategory, eTOwner;
-    private Button btnSend;
+    private Button btnSend,btnUpdate;
     private Spinner spinner;
     private CheckBox czyWioska;
     private ListView listView;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private FilmDataBase filmDataBase;
     private List<Film> filmList;
     private ArrayAdapter<Film> arrayAdapter;
+    private Film edytowanyFilm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,39 @@ public class MainActivity extends AppCompatActivity {
             filmList.remove(i);
             arrayAdapter.notifyDataSetChanged();
         });
+       listView.setOnItemLongClickListener(((adapterView, view, i, l) -> {
+           edytowanyFilm = filmList.get(i);
+           eTName.setText(edytowanyFilm.nazwa);
+           eTOwner.setText(edytowanyFilm.tworca);
+           eTAgeCategory.setText(" " + edytowanyFilm.kategoriaWiekowa);
+           czyWioska.setChecked(edytowanyFilm.czyWioska);
+
+           for(int j =0; j<spinner.getCount();j++){
+               if(spinner.getItemAtPosition(j).toString().equals(edytowanyFilm.gatunek)){
+                   spinner.setSelection(j);
+                   break;
+               }
+           }
+           btnUpdate.setVisibility(View.VISIBLE);
+           return true;
+
+        }));
+       btnUpdate.setOnClickListener(v -> {
+           edytowanyFilm.nazwa = eTName.getText().toString().trim();
+           edytowanyFilm.kategoriaWiekowa = Integer.parseInt(eTAgeCategory.getText().toString().trim());
+           edytowanyFilm.czyWioska = czyWioska.isChecked();
+           edytowanyFilm.tworca = eTOwner.getText().toString().trim();
+           edytowanyFilm.gatunek = spinner.getSelectedItem().toString();
+
+           filmDataBase.zwrocWszystkieFilmyDAO().aktualizujFilm(edytowanyFilm);
+           arrayAdapter.notifyDataSetChanged();
+
+           edytowanyFilm = null;
+           btnUpdate.setVisibility(View.INVISIBLE);
+           wyczysc();
+       });
     }
+
 
     private void ini() {
         eTName = findViewById(R.id.eTName);
@@ -96,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.btnSend);
         czyWioska = findViewById(R.id.checkBoxVillage);
         listView = findViewById(R.id.listView);
+        btnUpdate = findViewById(R.id.btnUpdate);
     }
     private void wyczysc(){
         eTName.setText("");
