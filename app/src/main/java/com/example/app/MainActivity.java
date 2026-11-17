@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
             arrayAdapter.notifyDataSetChanged();
         });
        listView.setOnItemLongClickListener(((adapterView, view, i, l) -> {
+           Toast.makeText(getApplicationContext(), "Aktualizacja!", Toast.LENGTH_SHORT).show();
+
            edytowanyFilm = filmList.get(i);
            eTName.setText(edytowanyFilm.nazwa);
            eTOwner.setText(edytowanyFilm.tworca);
@@ -114,6 +117,10 @@ public class MainActivity extends AppCompatActivity {
 
            filmDataBase.zwrocWszystkieFilmyDAO().aktualizujFilm(edytowanyFilm);
            arrayAdapter.notifyDataSetChanged();
+//           filmDataBase.zwrocWszystkieFilmyDAO().aktualizujFilm(edytowanyFilm);
+//           filmList.clear();
+//           filmList.addAll(filmDataBase.zwrocWszystkieFilmyDAO().zwrocWszystkieFilmy());
+//           arrayAdapter.notifyDataSetChanged();
 
            edytowanyFilm = null;
            btnUpdate.setVisibility(View.INVISIBLE);
