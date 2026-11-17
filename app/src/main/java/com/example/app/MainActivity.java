@@ -1,5 +1,6 @@
 package com.example.app;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -85,9 +86,22 @@ public class MainActivity extends AppCompatActivity {
         });
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             Film doUsuniecia = filmList.get(i);
-            filmDataBase.zwrocWszystkieFilmyDAO().usunZBazy(doUsuniecia);
-            filmList.remove(i);
-            arrayAdapter.notifyDataSetChanged();
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Usuwanie")
+                            .setMessage("Czy napewno usunac?")
+                                    .setPositiveButton("Tak",(dialog,which) -> {
+                                        filmDataBase.zwrocWszystkieFilmyDAO().usunZBazy(doUsuniecia);
+                                        filmList.remove(i);
+                                        arrayAdapter.notifyDataSetChanged();
+                                        if(doUsuniecia == edytowanyFilm){
+                                            edytowanyFilm = null;
+                                            btnUpdate.setVisibility(View.INVISIBLE);
+                                            wyczysc();
+                                        }
+                                    })
+                    .setNegativeButton("NIe",null)
+                    .show();
+
         });
        listView.setOnItemLongClickListener(((adapterView, view, i, l) -> {
            Toast.makeText(getApplicationContext(), "Aktualizacja!", Toast.LENGTH_SHORT).show();
