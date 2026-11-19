@@ -1,4 +1,4 @@
-# 🎬 Room Ocena
+# Room Ocena
 
 Prosta aplikacja na Androida napisana w Javie, w której zarządzasz własną listą filmów. Powstała, żeby pokazać, jak używać biblioteki **Room** do trzymania danych w lokalnej bazie: dodawać filmy, wyświetlać je, edytować i usuwać.
 
